@@ -40,64 +40,61 @@ $hotels = [
 
 ];
 
-foreach ($hotels as $index => $hotel) {
-    echo '<br>';
-    echo '<br>';
+$filtered_hotels = $hotels;
 
+//$temp_hotels = [];
 
-    foreach ($hotel as $key => $detail) {
-        echo '<br>';
-        echo $key;
-        echo ': ';
-        echo ($detail);
-    };
+// verificare se il parametro non è vuoto
+// if (!empty($_GET['parking'])){
+//     //Se il parametro è 1 filtra tutti gli hotel che hanno un parcheggio
+//     if (($_GET['parking']) === '1') {
+        
+//         foreach($filtered_hotels as $hotel){
+//             if($hotel['parking']){
+//                 // aggiungi a temp_hotels gli hotel che corrispondono
+//                 $temp_hotels[] = $hotel;
+//             }
+//         }
+        
+//     } // se parametro è 2 filtra quelli senza parcheggio 
+//     elseif (($_GET['parking']) === '2') {
+        
+//         foreach($filtered_hotels as $hotel){
+//             if($hotel['parking'] == false){
+//                 // aggiungi a temp_hotels gli hotel che corrispondono
+//                 $temp_hotels[] = $hotel;
+//             }
+//         }        
+//     }
+//     // aggiungi a filtered_hotels il contenuto di temp_hotels
+//     $filtered_hotels = $temp_hotels;
+// }
+
+//svuotare temp_hotels se riutilizzarlo per la condizione successiova
+
+if ((!empty($_GET['parking'])) && ($_GET['parking'] == 1)){
+    $filtered_hotels = array_filter($filtered_hotels, fn($hotel) => $hotel['parking']);
+} elseif ((!empty($_GET['parking'])) && ($_GET['parking'] == 2)){
+    $filtered_hotels = array_filter($filtered_hotels, fn($hotel) => !$hotel['parking']);
 };
 
+$temp_hotels = [];
+
+// if (!empty($_GET['vote'])){
+
+//         foreach($filtered_hotels as $hotel){
+//             if($hotel['vote'] == $_GET['vote']){
+//                 // aggiungi a temp_hotels gli hotel che corrispondono
+//                 $temp_hotels[] = $hotel;
+//             }
+//         }
+    
+//     // aggiungi a filtered_hotels il contenuto di temp_hotels
+//     $filtered_hotels = $temp_hotels;
+// }
+if (!empty($_GET['vote'])){
+    $filtered_hotels = array_filter($filtered_hotels, fn($hotel) => $hotel['vote'] == $_GET['vote']);
+}
 
 
-
-var_dump($_GET);
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-</head>
-
-<body>
-    <table class="table table-dark table-striped">
-        <thead>
-            <tr>
-                <th scope="col"><?php echo 'Name' ?></th>
-                <th scope="col"><?php echo 'Description' ?></th>
-                <th scope="col"><?php echo 'Parking' ?></th>
-                <th scope="col"><?php echo 'Vote' ?></th>
-                <th scope="col"><?php echo 'DIstance to Center' ?></th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($hotels as $index => $hotel) { ?>
-                <tr>
-                    <th scope="row"><?php echo $hotels[$index]['name'] ?></th>
-                    <td><?php echo $hotels[$index]['description'] ?></td>
-                    <td><?php echo ($hotels[$index]['parking'] === true) ? 'yes' : 'no' ?></td>
-                    <td><?php echo $hotels[$index]['vote'] ?></td>
-                    <td><?php echo $hotels[$index]['distance_to_center'] ?><?php echo 'km' ?></td>
-                </tr>
-            <?php } ?>
-
-
-        </tbody>
-    </table>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-</body>
-
-</html>
+require "index.view.php";
